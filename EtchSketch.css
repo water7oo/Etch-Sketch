@@ -1,0 +1,24 @@
+body {
+  font-family: "Courier New", Courier, monospace;
+}
+
+.row {
+  display: flex;
+}
+
+.column {
+  width: 50px;
+  height: 45px;
+  border: px solid black;
+}
+
+#Master {
+  display: flex;
+  border: 3px solid;
+  padding: 60px;
+}
+
+#grid-container {
+  border: 4px solid;
+  padding: 10px;
+}

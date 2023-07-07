@@ -10,11 +10,30 @@
   <body>
     <center><h1>Etch Sketch Project</h1></center>
 
-    <center><button id="new-Grid" onclick="newGrid()">New Grid</button></center>
-    <div id="Master">
-      <div id="Controls">Color Palette</div>
-      <center><div id="grid-container"></div></center>
-      <div id="Controls">Tools</div>
+    <div id="Project">
+      <div>
+        <div id="grid-controls">
+          <input
+            type="range"
+            id="gridSizeInput"
+            min="1"
+            max="64"
+            step="1"
+            value="64"
+          />
+          <p id="sliderValue">Grid Size</p>
+
+          <button id="createGridButton">Create Grid</button>
+          <button id="resetButton">Reset Grid</button>
+          <input type="checkbox" id="gridCheckbox" />
+          <label for="gridCheckbox">Enable Grid</label>
+        </div>
+
+        <div id="Master">
+          <div id="Controls">Color Palette</div>
+          <center><div id="grid-container"></div></center>
+        </div>
+      </div>
     </div>
   </body>
   <script src="EtchSketch.js"></script>

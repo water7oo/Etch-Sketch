@@ -1,65 +1,102 @@
-// Get the container element
 const container = document.getElementById("grid-container");
-let gridRowCount = 20;
-let gridColumnCount = 20;
+const resetButton = document.getElementById("resetButton");
 
-// Calculate the square size based on the grid size and container dimensions
-const containerWidth = container.offsetWidth;
-const containerHeight = container.offsetHeight;
-const minSquareSize = 20; // Minimum size of the grid square
+let gridRowCount = 1;
+let gridColumnCount = 1;
+let originalGridRowCount = gridRowCount;
+let originalGridColumnCount = gridColumnCount;
 
-// Calculate the maximum square size based on the container dimensions and the number of rows and columns
-const maxSquareSize = Math.floor(
-  Math.min(containerWidth / gridColumnCount, containerHeight / gridRowCount)
-);
+let isMouseDown = false; // Variable to track mouse button state
 
-// Determine the actual square size based on the maximum and minimum sizes
-const squareSize = Math.max(minSquareSize, maxSquareSize);
-
-// Create a loop to generate rows
-for (let i = 0; i < gridRowCount; i++) {
-  // Create a new row element
-  const row = document.createElement("div");
-  row.classList.add("row"); // Optional: Add a CSS class to the row element
-
-  for (let j = 0; j < gridColumnCount; j++) {
-    const column = document.createElement("div");
-    column.classList.add("column"); // Optional: Add a CSS class to the column element
-
-    // Set the size of the columns based on the calculated square size
-    column.style.width = `${squareSize}px`;
-    column.style.height = `${squareSize}px`;
-
-    var isMouseDown = false;
-    // Add event listeners for mouse actions
-    column.addEventListener("mousedown", () => {
-      isMouseDown = true;
-      column.style.backgroundColor = "black"; // Change the background color when the mouse button is pressed
-    });
-
-    column.addEventListener("mouseover", () => {
-      if (isMouseDown) {
-        column.style.backgroundColor = "black"; // Change the background color on hover while the mouse button is pressed
-      }
-    });
-
-    column.addEventListener("mouseup", () => {
-      isMouseDown = false;
-    });
-
-    // Append the column to the current row
-    row.appendChild(column);
-  }
-
-  // Append the row to the container
-  container.appendChild(row);
+// Event handler functions
+function handleMouseDown() {
+  isMouseDown = true;
+  this.style.backgroundColor = "black";
 }
 
-function newGrid() {}
+function handleMouseOver() {
+  if (isMouseDown) {
+    this.style.backgroundColor = "black";
+  }
+}
 
-//Add undo and redo
-//Add eraser
-//Add colors
-//Fix grid size issue
-//User brush size option
-//User can save their work as png,jpeg, etc.
+function handleMouseUp() {
+  isMouseDown = false;
+}
+
+// Function to create the grid based on user input
+function createGrid() {
+  // Clear existing grid
+  container.innerHTML = "";
+
+  // Update grid row and column count
+  gridRowCount = parseInt(slider.value) || originalGridRowCount;
+  gridColumnCount = parseInt(slider.value) || originalGridColumnCount;
+
+  // Calculate the square size based on the grid count
+  const maxSquareSize = 50; // Maximum size of the grid square
+  const minSquareSize = 7; // Minimum size of the grid square
+  const squareCount = Math.max(gridRowCount, gridColumnCount);
+  const squareSize = Math.max(
+    minSquareSize,
+    Math.min(maxSquareSize, Math.floor(maxSquareSize / squareCount))
+  );
+
+  // Create a loop to generate rows
+  for (let i = 0; i < gridRowCount; i++) {
+    const row = document.createElement("div");
+    row.classList.add("row");
+
+    for (let j = 0; j < gridColumnCount; j++) {
+      const column = document.createElement("div");
+      column.classList.add("column");
+
+      column.style.width = `${squareSize}px`;
+      column.style.height = `${squareSize}px`;
+
+      column.addEventListener("mousedown", handleMouseDown);
+      column.addEventListener("mouseover", handleMouseOver);
+      column.addEventListener("mouseup", handleMouseUp);
+
+      row.appendChild(column);
+    }
+
+    container.appendChild(row);
+  }
+}
+
+function resetGrid() {
+  const squares = document.querySelectorAll(".column");
+
+  // Reset the background color of each square
+  squares.forEach((square) => {
+    square.style.backgroundColor = "";
+  });
+}
+
+//Slider variables
+const slider = document.getElementById("gridSizeInput");
+const sliderValue = document.getElementById("sliderValue");
+
+slider.value = 1;
+
+// Update the slider value display as the user slides the slider
+slider.addEventListener("input", () => {
+  const formattedValue = `${slider.value}x${slider.value}`;
+  sliderValue.textContent = formattedValue;
+  createGrid(); // Call createGrid to update the grid with the new size
+});
+
+// Event listener for the Reset Grid button click
+resetButton.addEventListener("click", resetGrid);
+
+// Call createGrid() to generate the default grid on page load
+createGrid();
+
+const gridCheckbox = document.getElementById("gridCheckbox");
+const gridContainer = document.querySelector("#grid-container");
+
+gridCheckbox.addEventListener("change", () => {
+  gridContainer.classList.toggle("no-border", !gridCheckbox.checked);
+});
+

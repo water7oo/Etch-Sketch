@@ -1,22 +1,39 @@
+//Fix Grid sizing issue
+//Make a pen tool and eraser tool
+//Make undo and redo
+//Add color wheel
+//Add css elements
+
 const container = document.getElementById("grid-container");
 const resetButton = document.getElementById("resetButton");
+const colorPicker = document.getElementById("colorPicker");
+const eraserButton = document.getElementById("eraserButton");
 
 let gridRowCount = 1;
 let gridColumnCount = 1;
 let originalGridRowCount = gridRowCount;
 let originalGridColumnCount = gridColumnCount;
-
-let isMouseDown = false; // Variable to track mouse button state
+let selectedColor = colorPicker.value;
+let isMouseDown = false;
+let isErasing = false;
 
 // Event handler functions
 function handleMouseDown() {
   isMouseDown = true;
-  this.style.backgroundColor = "black";
+  if (isErasing) {
+    this.style.backgroundColor = "";
+  } else {
+    this.style.backgroundColor = selectedColor;
+  }
 }
 
 function handleMouseOver() {
   if (isMouseDown) {
-    this.style.backgroundColor = "black";
+    if (isErasing) {
+      this.style.backgroundColor = "";
+    } else {
+      this.style.backgroundColor = selectedColor;
+    }
   }
 }
 
@@ -33,14 +50,16 @@ function createGrid() {
   gridRowCount = parseInt(slider.value) || originalGridRowCount;
   gridColumnCount = parseInt(slider.value) || originalGridColumnCount;
 
-  // Calculate the square size based on the grid count
-  const maxSquareSize = 50; // Maximum size of the grid square
-  const minSquareSize = 7; // Minimum size of the grid square
-  const squareCount = Math.max(gridRowCount, gridColumnCount);
-  const squareSize = Math.max(
+  // Calculate the initial square size based on the grid count
+  const maxSquareSize = 100; // Maximum size of the grid square
+  const minSquareSize = 10; // Minimum size of the grid square
+  const initialSquareSize = Math.max(
     minSquareSize,
-    Math.min(maxSquareSize, Math.floor(maxSquareSize / squareCount))
+    Math.min(maxSquareSize, Math.floor(maxSquareSize / gridRowCount))
   );
+
+  // Calculate the reduction factor for square size
+  const reductionFactor = Math.max(gridRowCount, gridColumnCount) / gridRowCount;
 
   // Create a loop to generate rows
   for (let i = 0; i < gridRowCount; i++) {
@@ -50,6 +69,11 @@ function createGrid() {
     for (let j = 0; j < gridColumnCount; j++) {
       const column = document.createElement("div");
       column.classList.add("column");
+
+      const squareSize = Math.max(
+        minSquareSize,
+        Math.floor(initialSquareSize / reductionFactor)
+      );
 
       column.style.width = `${squareSize}px`;
       column.style.height = `${squareSize}px`;
@@ -74,6 +98,15 @@ function resetGrid() {
   });
 }
 
+function toggleEraser() {
+  isErasing = !isErasing;
+  if (isErasing) {
+    eraserButton.classList.add("active");
+  } else {
+    eraserButton.classList.remove("active");
+  }
+}
+
 //Slider variables
 const slider = document.getElementById("gridSizeInput");
 const sliderValue = document.getElementById("sliderValue");
@@ -90,6 +123,14 @@ slider.addEventListener("input", () => {
 // Event listener for the Reset Grid button click
 resetButton.addEventListener("click", resetGrid);
 
+// Event listener for the color picker change event
+colorPicker.addEventListener("change", () => {
+  selectedColor = colorPicker.value;
+});
+
+// Event listener for the eraser button click
+eraserButton.addEventListener("click", toggleEraser);
+
 // Call createGrid() to generate the default grid on page load
 createGrid();
 
@@ -99,4 +140,3 @@ const gridContainer = document.querySelector("#grid-container");
 gridCheckbox.addEventListener("change", () => {
   gridContainer.classList.toggle("no-border", !gridCheckbox.checked);
 });
-

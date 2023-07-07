@@ -21,14 +21,16 @@ body {
 }
 
 #Controls {
+  justify-content: flex-start;
   display: flex;
-  padding: 10px;
-  border: 1px solid black;
+  border: 1px solid rgb(81, 0, 255);
+  flex-direction: column;
 }
 
 #grid-controls {
+  display: flex;
   padding: 5px;
-  border: 1px solid black;
+  border: 1px solid rgb(0, 255, 174);
 }
 
 #Project {
@@ -38,7 +40,7 @@ body {
 
 #Master {
   display: flex;
-  border: 3px solid;
+  border: 3px solid yellow;
   padding: 10px;
 }
 

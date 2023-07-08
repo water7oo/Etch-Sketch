@@ -10,24 +10,23 @@
   <body>
     <center><h1>Etch Sketch Project</h1></center>
 
+    <div id="grid-controls">
+      <input
+        type="range"
+        id="gridSizeInput"
+        min="1"
+        max="64"
+        step="1"
+        value="64"
+      />
+      <p id="sliderValue">Grid Size</p>
+
+      <button id="resetButton">Clear</button>
+      <input type="checkbox" id="gridCheckbox" />
+      <label for="gridCheckbox">Enable Grid</label>
+    </div>
     <div id="Project">
       <div>
-        <div id="grid-controls">
-          <input
-            type="range"
-            id="gridSizeInput"
-            min="1"
-            max="64"
-            step="1"
-            value="64"
-          />
-          <p id="sliderValue">Grid Size</p>
-
-          <button id="createGridButton">Create Grid</button>
-          <button id="resetButton">Clear</button>
-          <input type="checkbox" id="gridCheckbox" />
-          <label for="gridCheckbox">Enable Grid</label>
-        </div>
 
         <div id="Master">
           <div id="Controls">

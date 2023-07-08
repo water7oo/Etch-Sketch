@@ -1,16 +1,10 @@
-//Fix Grid sizing issue
-//Make a pen tool and eraser tool
-//Make undo and redo
-//Add color wheel
-//Add css elements
-
 const container = document.getElementById("grid-container");
 const resetButton = document.getElementById("resetButton");
 const colorPicker = document.getElementById("colorPicker");
 const eraserButton = document.getElementById("eraserButton");
 
-let gridRowCount = 1;
-let gridColumnCount = 1;
+let gridRowCount = 64;
+let gridColumnCount = 64;
 let originalGridRowCount = gridRowCount;
 let originalGridColumnCount = gridColumnCount;
 let selectedColor = colorPicker.value;
@@ -51,15 +45,16 @@ function createGrid() {
   gridColumnCount = parseInt(slider.value) || originalGridColumnCount;
 
   // Calculate the initial square size based on the grid count
-  const maxSquareSize = 100; // Maximum size of the grid square
-  const minSquareSize = 10; // Minimum size of the grid square
+  const maxSquareSize = 250; // Maximum size of the grid square
+  const minSquareSize = 20; // Minimum size of the grid square
   const initialSquareSize = Math.max(
     minSquareSize,
     Math.min(maxSquareSize, Math.floor(maxSquareSize / gridRowCount))
   );
 
   // Calculate the reduction factor for square size
-  const reductionFactor = Math.max(gridRowCount, gridColumnCount) / gridRowCount;
+  const reductionFactor =
+    Math.max(gridRowCount, gridColumnCount) / gridRowCount;
 
   // Create a loop to generate rows
   for (let i = 0; i < gridRowCount; i++) {

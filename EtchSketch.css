@@ -1,5 +1,6 @@
 body {
   font-family: "Courier New", Courier, monospace;
+  background-color: rgb(255, 236, 196);
 }
 
 .row {
@@ -18,6 +19,7 @@ body {
 #grid-container {
   border: 4px solid;
   padding: 10px;
+  background-color: white;
 }
 
 #Controls {
@@ -36,6 +38,7 @@ body {
 #Project {
   border: 3px solid red;
   display: flex;
+  justify-content: center;
 }
 
 #Master {
